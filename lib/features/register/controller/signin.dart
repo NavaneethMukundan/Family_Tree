@@ -1,7 +1,17 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SigninController extends ChangeNotifier {
   final secretkey = TextEditingController();
+  final signInFormKeys = GlobalKey<FormState>();
+
+  formValidation(context, Widget screen) {
+    if (signInFormKeys.currentState!.validate()) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => screen));
+    } else {
+      const Text('Please enter the Key');
+    }
+  }
 
   bool _isHidden = false;
   get isHidden => _isHidden;
