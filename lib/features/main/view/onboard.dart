@@ -49,7 +49,8 @@ class OnBoardScreen extends StatelessWidget {
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(right: 20, bottom: 30),
           child: IconButton(
-              splashRadius: 1,
+              splashRadius: 50,
+              splashColor: Colors.transparent,
               onPressed: () {
                 RouteController.pushReplacementRoute(
                     context, const SigninScreen());
