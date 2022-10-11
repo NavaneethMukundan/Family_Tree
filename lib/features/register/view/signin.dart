@@ -34,7 +34,7 @@ class SigninScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
               const Text(
-                'Sign in to you account',
+                'Sign in to your account',
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
               ),
               kheight,
@@ -76,14 +76,7 @@ class SigninScreen extends StatelessWidget {
                   ),
                 );
               }),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Forgot Password?',
-                        style: TextStyle(fontSize: 15, color: kBlack),
-                      ))),
+              kheight,
               Consumer<SigninController>(builder: (context, value, child) {
                 return ElevatedButton(
                     onPressed: () {
