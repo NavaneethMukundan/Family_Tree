@@ -19,7 +19,7 @@ class OnBoardScreen extends StatelessWidget {
               fit: BoxFit.cover,
               image: const AssetImage(
                 'assets/onboard.png',
-              ))),
+              ))), 
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
