@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TextFormWidget extends StatelessWidget {
-  const TextFormWidget(
+   TextFormWidget(
       {Key? key,
       required this.icon,
       required this.hintText,
@@ -11,7 +11,7 @@ class TextFormWidget extends StatelessWidget {
       required this.color,
       required this.radius,
       required this.iconcolor,
-      // required this.controller,
+      required this.controller,
       this.hiddentext = true,
       this.sufixIcon})
       : super(key: key);
@@ -25,13 +25,14 @@ class TextFormWidget extends StatelessWidget {
   final Color color;
   final Color iconcolor;
   final double radius;
+  final TextEditingController controller;
   // final TextEditingController controller;
-  final bool hiddentext;
+   bool hiddentext = false;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: hiddentext,
-      // controller: controller,
+      obscureText: false ,
+      controller: controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(padding),
         hintText: hintText,

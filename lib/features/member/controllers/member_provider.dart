@@ -19,8 +19,9 @@ class FamilyTreeProvider extends ChangeNotifier {
       final father = await db.doc(fatherId).get();
     }
     final spouse = await db.where('spuose', isEqualTo: id).get();
- 
-    FamilyTreeModel(member: Member.fromJson(members.data()!));
+    print(members.data());
+
+    // FamilyTreeModel(member: Member.fromJson(members.data()!));
     
   }
 }
