@@ -5,6 +5,7 @@ class SigninController extends ChangeNotifier {
   final signInFormKeys = GlobalKey<FormState>();
 
   formValidation(context, Widget screen) {
+    print('btn clicked'); 
     if (signInFormKeys.currentState!.validate()) {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (ctx) => screen));

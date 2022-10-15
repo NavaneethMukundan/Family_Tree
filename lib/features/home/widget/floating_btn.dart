@@ -1,5 +1,5 @@
 import 'package:family_tree/features/events/view/events.dart';
-import 'package:family_tree/features/forms/view/forms.dart';
+import 'package:family_tree/features/forms/view/forms_page.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/routes.dart';
 import 'package:flutter/material.dart';
