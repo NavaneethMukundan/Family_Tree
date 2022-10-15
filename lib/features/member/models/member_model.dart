@@ -7,18 +7,20 @@ class Member {
   String? address;
   String? fatherId;
   String? motherId;
-  List<String>? details;
+  List<String?>? details;
   String? mobile;
 
   // for female only
   bool? isFemale;
   String? husbandName;
-  List<String>? children;
+  List<String?>? children;
   // for inlaw only
   bool? isInlaw;
   String? fatherName;
   String? motherName;
   String? husbandId;
+
+  List<String?>? searchStrings;
 
   Member({
     this.alias,
@@ -38,6 +40,10 @@ class Member {
     this.fatherName,
     this.motherName,
     this.husbandId,
+
+
+    this.searchStrings,
+
   });
 
   Map<String, dynamic> toJson() {
@@ -60,7 +66,9 @@ class Member {
     json['isInlaw'] = isInlaw;
     json['fatherName'] = fatherName;
     json['motherName'] = motherName;
-    json['motherName'] = husbandId;
+    json['husbandId'] = husbandId;
+
+    json['searchCase'] = searchStrings;
 
     return json;
   }
@@ -74,16 +82,20 @@ class Member {
     fatherId = json['fatherId'] as String?;
     motherId = json['motherId'] as String?;
     address = json['address'] as String?;
-    details = json['details'] as List<String>?;
-    mobile = json['mobile'] as String?;
+    // print(json['details'].runtimeType);
+    // print(json['details']); 
+    final detailsList = json['details'] as List<dynamic>?; 
+    details = detailsList?.map((e)=> e.toString()).toList();
+    mobile = json['mobile'] as String?; 
     // for female
     isFemale = json['isFemale'] as bool?;
     husbandName = json['husbandName'] as String?;
-    children = json['children'] as List<String>?;
+    final childrenList = json['children'] as List<dynamic>?;
+    children = childrenList?.map((e)=> e.toString()).toList();
     // for inLaw
     isInlaw = json['isInlaw'] as bool?;
     fatherName = json['fatherName'] as String?;
     motherName = json['motherName'] as String?;
     husbandId = json['husbandId'] as String?;
-  }
+  }  
 }

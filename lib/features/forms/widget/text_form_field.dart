@@ -12,10 +12,13 @@ class TextFormWidget extends StatelessWidget {
       required this.radius,
       required this.iconcolor,
       required this.controller,
-      this.hiddentext = true,
+      this.hiddentext = false,
+      this.validate = false,
+      this.onChanged, 
       this.sufixIcon})
       : super(key: key);
-
+  bool validate= false;
+  void Function(String)? onChanged;
   final IconData icon;
   final IconButton? sufixIcon;
   final String hintText;
@@ -26,16 +29,16 @@ class TextFormWidget extends StatelessWidget {
   final Color iconcolor;
   final double radius;
   final TextEditingController controller;
-  // final TextEditingController controller;
    bool hiddentext = false;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: false ,
+      onChanged: onChanged,
+      obscureText: hiddentext, 
       controller: controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(padding),
-        hintText: hintText,
+        labelText: hintText,
         prefixIcon: Icon(
           icon,
           color: iconcolor,
@@ -54,6 +57,7 @@ class TextFormWidget extends StatelessWidget {
         ),
       ),
       validator: (value) {
+        if(!validate) return null;
         if (value == null || value.isEmpty) {
           return "Value is required";
         } else {
