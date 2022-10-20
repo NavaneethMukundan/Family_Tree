@@ -82,7 +82,7 @@ class SigninScreen extends StatelessWidget {
               Consumer<SigninController>(builder: (context, value, child) {
                 return ElevatedButton(
                     onPressed: () {
-                      value.formValidation(context,  HomeScreen(member: Member(),));
+                      value.formValidation(context,  HomePage());
                     },
                     style: ElevatedButton.styleFrom(
                         primary: kBlack, minimumSize: const Size(200, 70)),

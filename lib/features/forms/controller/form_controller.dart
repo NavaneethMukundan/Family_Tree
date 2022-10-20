@@ -57,18 +57,18 @@ class FormController extends ChangeNotifier {
     notifyListeners();
   }
 
-  addMember(BuildContext context) async {
+  Future<String?>addMember(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       print('fasdfs');
 
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please fill required fields.')));
-      return;
+      return null;
     }
     print('object');
     if (isMemberInlaw && husband == null) {
       print('husband is null');
-      return;
+      return null;
     }
     if (!isMemberInlaw && (father == null || mother == null)) {
       print('parents  is null');
@@ -117,16 +117,21 @@ class FormController extends ChangeNotifier {
     );
 
     final map = member.toJson();
-
+     bool success= false;
     await fireMember
         .set(map)
-        .then((value) => ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Member Added'))))
+        .then((value) {
+          success =true;
+          return ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Member Added')));
+        })
         .onError((error, stackTrace) => ScaffoldMessenger.of(context)
             .showSnackBar(
                 const SnackBar(content: Text('Something went wrong'))));
-    clearAllFields();
+    if(success){
 
+    return id; 
+    }
     print('completed');
   }
 

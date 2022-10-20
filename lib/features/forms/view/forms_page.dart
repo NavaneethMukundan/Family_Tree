@@ -1,14 +1,15 @@
 import 'package:family_tree/features/forms/controller/form_controller.dart';
 import 'package:family_tree/features/forms/view/search_page.dart';
 import 'package:family_tree/features/forms/widget/text_form_field.dart';
+import 'package:family_tree/features/home/view/details_page/user_details.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FormPage extends StatelessWidget {
-  const FormPage({Key? key}) : super(key: key);
-
+  const FormPage({this.fromId, Key? key}) : super(key: key);
+  final String? fromId;
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<FormController>(context, listen: true);
@@ -363,14 +364,37 @@ class FormPage extends StatelessWidget {
                   ),
                   kheight20,
                   ElevatedButton(
-                      onPressed: () {
-                        provider.addMember(context);
+                      onPressed: () async {
+                        final id = await provider.addMember(context);
+                        if (id == null) {}
+                        if (id != null) {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          if (fromId == null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserDetailsPage(
+                                    memberId: id,
+                                  ),
+                                ));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserDetailsPage(
+                                    memberId: fromId,
+                                  ),
+                                ));
+                          }
+                          provider.clearAllFields();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: kBlack,
                           minimumSize: const Size(250, 50)),
                       child: const Text(
-                        'Add Member',
+                        'Update Member',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       )),

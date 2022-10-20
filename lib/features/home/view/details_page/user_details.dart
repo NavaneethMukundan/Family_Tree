@@ -342,7 +342,7 @@ class UserDetailsPage extends StatelessWidget {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => FormPage(),
+                                            builder: (context) => FormPage(fromId:data.data?.member.id),
                                           ));
                                     }, // button pressed
                                     child: Column(
@@ -443,7 +443,7 @@ class UserDetailsPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FormPage(),
+                          builder: (context) => FormPage(fromId: data.data?.member.id,),
                         ));
                   }, // button pressed
                   child: Column(
