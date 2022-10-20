@@ -11,5 +11,7 @@ class FamilyTreeModel {
     required this.member,
     this.children,
     this.spouse,
+    this.father,
+    this.mother,
   });
 }

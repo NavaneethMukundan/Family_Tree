@@ -117,7 +117,7 @@ class BottomSheetWidget extends StatelessWidget {
           ElevatedButton(
               onPressed: () {
                 RouteController.popupRoute(context);
-                RouteController.pushRoute(context, const UserDetailsPage());
+                RouteController.pushRoute(context,  UserDetailsPage());
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: kBlack, minimumSize: const Size(230, 60)),

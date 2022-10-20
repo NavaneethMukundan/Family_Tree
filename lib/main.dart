@@ -1,6 +1,7 @@
 import 'package:family_tree/features/forms/controller/form_controller.dart';
 import 'package:family_tree/features/forms/controller/search_controller.dart';
 import 'package:family_tree/features/forms/view/forms_page.dart';
+import 'package:family_tree/features/home/view/details_page/user_details.dart';
 import 'package:family_tree/features/member/controllers/member_provider.dart';
 import 'package:firebase_core/firebase_core.dart'; 
 import 'package:family_tree/features/register/controller/signin.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:   FormPage(),   
+        home:   UserDetailsPage(), 
       ),
     );
   }
