@@ -1,3 +1,4 @@
+import 'package:family_tree/features/home/view/home_page.dart';
 import 'package:family_tree/features/home/view/home_screen.dart';
 import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/features/register/controller/signin.dart';
@@ -81,11 +82,7 @@ class SigninScreen extends StatelessWidget {
               Consumer<SigninController>(builder: (context, value, child) {
                 return ElevatedButton(
                     onPressed: () {
-                      value.formValidation(
-                          context,
-                          HomeScreen(
-                            member: Member(),
-                          ));
+                      value.formValidation(context, const HomePage());
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: kBlack,
