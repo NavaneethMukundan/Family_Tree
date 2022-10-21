@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFormWidget extends StatelessWidget {
-   TextFormWidget(
+  TextFormWidget(
       {Key? key,
       required this.icon,
       required this.hintText,
@@ -14,10 +15,12 @@ class TextFormWidget extends StatelessWidget {
       required this.controller,
       this.hiddentext = false,
       this.validate = false,
-      this.onChanged, 
+      this.isNumber = false,
+      this.onChanged,
       this.sufixIcon})
       : super(key: key);
-  bool validate= false;
+  bool isNumber = false;
+  bool validate = false;
   void Function(String)? onChanged;
   final IconData icon;
   final IconButton? sufixIcon;
@@ -29,12 +32,12 @@ class TextFormWidget extends StatelessWidget {
   final Color iconcolor;
   final double radius;
   final TextEditingController controller;
-   bool hiddentext = false;
+  bool hiddentext = false;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: onChanged,
-      obscureText: hiddentext, 
+      obscureText: hiddentext,
       controller: controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(padding),
@@ -56,14 +59,19 @@ class TextFormWidget extends StatelessWidget {
           borderSide: BorderSide(color: color),
         ),
       ),
+      
+      keyboardType:isNumber? TextInputType.number:null,
+      inputFormatters:isNumber? <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ]:null, 
       validator: (value) {
-        if(!validate) return null;
+        if (!validate) return null;
         if (value == null || value.isEmpty) {
-          return "Value is required";
+          return "Please fill this field";
         } else {
           return null;
         }
-      },
+      }, 
     );
   }
 }

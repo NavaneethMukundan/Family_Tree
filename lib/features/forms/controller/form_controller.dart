@@ -12,6 +12,8 @@ class FormController extends ChangeNotifier {
   final fireDb = FirebaseFirestore.instance.collection('members');
   final fireStorageRef = FirebaseStorage.instance.ref();
 
+  String? id;
+
   final nameController = TextEditingController();
   final aliasController = TextEditingController();
   final houseController = TextEditingController();
@@ -55,30 +57,36 @@ class FormController extends ChangeNotifier {
     notifyListeners();
   }
 
-  addMember(BuildContext context) async {
+  Future<String?>addMember(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       print('fasdfs');
 
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please fill required fields.')));
-      return;
+      return null;
     }
     print('object');
     if (isMemberInlaw && husband == null) {
       print('husband is null');
-      return;
+      return null;
     }
     if (!isMemberInlaw && (father == null || mother == null)) {
       print('parents  is null');
- 
-      //return; 
+
+      //return;
     }
     print('validation done');
+    final DocumentReference<Map<String, dynamic>> fireMember;
 
-    final fireMember = fireDb.doc();
-    final id = fireMember.id;
-
-    imageUrl = await uploadImage() ?? '';
+    if (id != null) {
+      fireMember = fireDb.doc(id);
+    } else {
+      fireMember = fireDb.doc();
+      id = fireMember.id;
+    }
+    if(imageFile!=null){
+      imageUrl = await uploadImage() ?? '';
+    }
 
     final details = detailsController.text.split(',');
     if (details.isEmpty) details.add('No Details');
@@ -87,14 +95,14 @@ class FormController extends ChangeNotifier {
     if (details.isEmpty) details.add('No Details');
 
     String fullName = '${nameController.text} ${aliasController.text}';
-
+ 
     member = Member(
       id: id,
       name: nameController.text,
       alias: aliasController.text,
       house: houseController.text,
-      fatherId: father?.id ?? 'FID',
-      motherId: mother?.id ?? 'MID',
+      fatherId:isMemberInlaw?'inLaw': father?.id ?? 'FID',
+      motherId:isMemberInlaw?'inLaw': mother?.id ?? 'MID',
       fatherName: isMemberInlaw ? fatherNameController.text : father?.name,
       motherName: isMemberInlaw ? motherNameController.text : mother?.name,
       address: addressController.text,
@@ -109,28 +117,28 @@ class FormController extends ChangeNotifier {
     );
 
     final map = member.toJson();
-    // final mem = Member.fromJson(map);
-    // final reMap = mem.toJson();
-    // print(map);
-    // print('map');
-    // print(reMap);
-
+     bool success= false;
     await fireMember
         .set(map)
-        .then((value) => ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Member Added'))))
+        .then((value) {
+          success =true;
+          return ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Member Added')));
+        })
         .onError((error, stackTrace) => ScaffoldMessenger.of(context)
             .showSnackBar(
                 const SnackBar(content: Text('Something went wrong'))));
-    clearAllFields();
+    if(success){
 
+    return id; 
+    }
     print('completed');
   }
 
   List<String>? getSearchString() {
     List<String>? searchStringList = ["allMembers"];
     final nameStrings = setSearchParam(nameController.text.toLowerCase());
-    final aliasStrings = setSearchParam(aliasController.text.toLowerCase()); 
+    final aliasStrings = setSearchParam(aliasController.text.toLowerCase());
     searchStringList.addAll(nameStrings);
     searchStringList.addAll(aliasStrings);
 
@@ -157,7 +165,7 @@ class FormController extends ChangeNotifier {
       }
     }
 
-    return finalName.trim().toLowerCase(); 
+    return finalName.trim().toLowerCase();
   }
 
   Future<String?> uploadImage() async {
@@ -195,6 +203,7 @@ class FormController extends ChangeNotifier {
   }
 
   clearAllFields() {
+    id = null;
     nameController.clear();
     aliasController.clear();
     houseController.clear();
@@ -206,11 +215,47 @@ class FormController extends ChangeNotifier {
     fatherNameController.clear();
     motherNameController.clear();
 
+    imageFile = null;
+    imageUrl = null;
     father = null;
     mother = null;
     husband = null;
     isFemale = false;
     isMemberInlaw = false;
+    notifyListeners();
+  }
+
+  fillFields(Member member,
+      {Member? fatherMember, Member? motherMember, Member? husbandMember}) {
+    id = member.id;
+    nameController.text = member.name ?? '';
+    aliasController.text = member.alias ?? '';
+    houseController.text = member.house ?? '';
+    addressController.text = member.address ?? '';
+    detailsController.text = member.details?.join(',') ?? '';
+    mobileController.text = member.mobile ?? '';
+    husbandNameController.text = member.husbandName ?? '';
+    childrenController.text = member.children?.join(',') ?? '';
+    fatherNameController.text = member.fatherName ?? '';
+    motherNameController.text = member.motherName ?? '';
+
+    imageFile = null;
+    imageUrl = member.imageUrl;
+    father = fatherMember;
+    mother = motherMember;
+    husband = husbandMember;
+    isFemale = member.isFemale ?? false;
+    isMemberInlaw = member.isInlaw ?? false;
+    notifyListeners();
+  }
+
+  addRootMember({Member? fatherMember, Member? motherMember, Member? husbandMember}){
+    father = fatherMember;
+    mother = motherMember;
+    husband = husbandMember;
+    if(husbandMember!=null){
+      isMemberInlaw = true; 
+    }
     notifyListeners();
   }
 }

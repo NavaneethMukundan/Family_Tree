@@ -12,6 +12,10 @@ class SearchController extends ChangeNotifier {
   updtadeList(){
     notifyListeners();
   }
+  addSpouses(List<Member> spouses){
+    memberList.clear();
+    memberList.addAll(spouses);
+  }
 
   Future<List<Member>> searchMember()async{
     print(searchController.text); 

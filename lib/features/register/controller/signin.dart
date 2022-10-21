@@ -5,13 +5,18 @@ class SigninController extends ChangeNotifier {
   final signInFormKeys = GlobalKey<FormState>();
 
   formValidation(context, Widget screen) {
-    print('btn clicked'); 
+    
     if (signInFormKeys.currentState!.validate()) {
+      if(secretkey.text=='12345'){
+        
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (ctx) => screen));
-    } else {
-      const Text('Please enter the Key');
+      }else {
+ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Invalid Key')));
+      // const Text('Please enter the Key');
     }
+    } 
   }
 
   bool _isHidden = false;
