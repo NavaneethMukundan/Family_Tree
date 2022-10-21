@@ -1,4 +1,3 @@
-import 'package:family_tree/features/home/view/home_page.dart';
 import 'package:family_tree/features/home/view/home_screen.dart';
 import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/features/register/controller/signin.dart';
@@ -27,8 +26,8 @@ class SigninScreen extends StatelessWidget {
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10)),
                     image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/Web_Photo_Editor.jpg'))),
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/login2.jpg'))),
               ),
               kheight20,
               const Text(
@@ -82,10 +81,15 @@ class SigninScreen extends StatelessWidget {
               Consumer<SigninController>(builder: (context, value, child) {
                 return ElevatedButton(
                     onPressed: () {
-                      value.formValidation(context,  HomePage());
+                      value.formValidation(
+                          context,
+                          HomeScreen(
+                            member: Member(),
+                          ));
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: kBlack, minimumSize: const Size(200, 70)),
+                        backgroundColor: kBlack,
+                        minimumSize: const Size(200, 70)),
                     child: const Text(
                       'Login',
                       style:
