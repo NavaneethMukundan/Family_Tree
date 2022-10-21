@@ -57,7 +57,7 @@ class FormController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?>addMember(BuildContext context) async {
+  Future<String?> addMember(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       print('fasdfs');
 
@@ -84,7 +84,7 @@ class FormController extends ChangeNotifier {
       fireMember = fireDb.doc();
       id = fireMember.id;
     }
-    if(imageFile!=null){
+    if (imageFile != null) {
       imageUrl = await uploadImage() ?? '';
     }
 
@@ -95,14 +95,14 @@ class FormController extends ChangeNotifier {
     if (details.isEmpty) details.add('No Details');
 
     String fullName = '${nameController.text} ${aliasController.text}';
- 
+
     member = Member(
       id: id,
       name: nameController.text,
       alias: aliasController.text,
       house: houseController.text,
-      fatherId:isMemberInlaw?'inLaw': father?.id ?? 'FID',
-      motherId:isMemberInlaw?'inLaw': mother?.id ?? 'MID',
+      fatherId: isMemberInlaw ? 'inLaw' : father?.id ?? 'FID',
+      motherId: isMemberInlaw ? 'inLaw' : mother?.id ?? 'MID',
       fatherName: isMemberInlaw ? fatherNameController.text : father?.name,
       motherName: isMemberInlaw ? motherNameController.text : mother?.name,
       address: addressController.text,
@@ -117,22 +117,18 @@ class FormController extends ChangeNotifier {
     );
 
     final map = member.toJson();
-     bool success= false;
-    await fireMember
-        .set(map)
-        .then((value) {
-          success =true;
-          return ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Member Added')));
-        })
-        .onError((error, stackTrace) => ScaffoldMessenger.of(context)
-            .showSnackBar(
-                const SnackBar(content: Text('Something went wrong'))));
-    if(success){
-
-    return id; 
+    bool success = false;
+    await fireMember.set(map).then((value) {
+      success = true;
+      return ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Member Added')));
+    }).onError((error, stackTrace) => ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Something went wrong'))));
+    if (success) {
+      return id;
     }
     print('completed');
+    return null;
   }
 
   List<String>? getSearchString() {
@@ -179,11 +175,12 @@ class FormController extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<void> pickCompressedImage() async {
     XFile? compressedImage = await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
       imageQuality: 25,
     );
 
@@ -249,12 +246,13 @@ class FormController extends ChangeNotifier {
     notifyListeners();
   }
 
-  addRootMember({Member? fatherMember, Member? motherMember, Member? husbandMember}){
+  addRootMember(
+      {Member? fatherMember, Member? motherMember, Member? husbandMember}) {
     father = fatherMember;
     mother = motherMember;
     husband = husbandMember;
-    if(husbandMember!=null){
-      isMemberInlaw = true; 
+    if (husbandMember != null) {
+      isMemberInlaw = true;
     }
     notifyListeners();
   }

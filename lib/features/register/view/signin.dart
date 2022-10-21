@@ -1,6 +1,4 @@
 import 'package:family_tree/features/home/view/home_page.dart';
-import 'package:family_tree/features/home/view/home_screen.dart';
-import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/features/register/controller/signin.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
