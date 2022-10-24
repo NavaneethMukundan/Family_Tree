@@ -1,6 +1,3 @@
-import 'package:family_tree/features/forms/controller/form_controller.dart';
-import 'package:family_tree/features/forms/controller/search_controller.dart';
-import 'package:family_tree/features/forms/view/forms_page.dart';
 import 'package:family_tree/features/home/view/details_page/user_details.dart';
 import 'package:family_tree/features/member/controllers/member_provider.dart';
 import 'package:family_tree/features/member/models/family_tree_model.dart';
@@ -8,7 +5,6 @@ import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -41,7 +37,7 @@ class HomePage extends StatelessWidget {
         ],
         elevation: 0,
         title: const Text(
-          'Aith Athikari ',
+          'PP Family',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
       ),
@@ -93,7 +89,7 @@ class HomePage extends StatelessWidget {
                                               fit: BoxFit.fill,
                                               image: NetworkImage(data
                                                       .data?.member.imageUrl ??
-                                                  'https://thumbs.dreamstime.com/b/cartoon-senior-elderly-old-man-vector-illustration-145176212.jpg'))),
+                                                  'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                                     ),
                                   ),
                                   Text(
@@ -108,7 +104,6 @@ class HomePage extends StatelessWidget {
                           buildSpouseList(data)
                         ],
                       ),
-          
                       Image.asset('assets/design.png', color: kBlack),
                       const Text(
                         'Family',
@@ -116,7 +111,6 @@ class HomePage extends StatelessWidget {
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       kheight,
-                      
                       data.data?.children != null
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +176,7 @@ class HomePage extends StatelessWidget {
                                     fit: BoxFit.fill,
                                     image: NetworkImage(data
                                             .data?.spouse?[index].imageUrl ??
-                                        'https://thumbs.dreamstime.com/b/cartoon-senior-elderly-old-man-vector-illustration-145176212.jpg'))),
+                                        'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                           ),
                         ),
                         Text(
@@ -252,7 +246,7 @@ class HomePage extends StatelessWidget {
                       image: DecorationImage(
                           fit: BoxFit.fill,
                           image: NetworkImage(child?.imageUrl ??
-                              'https://i.pinimg.com/originals/42/5f/77/425f77d2aa6bf3f1fe63e0b2e94cbc88.jpg'))),
+                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                 ),
               ),
               Text(child?.name ?? ""),

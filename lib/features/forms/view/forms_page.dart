@@ -42,7 +42,7 @@ class FormPage extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 70,
                         backgroundImage: const NetworkImage(
-                            'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300'),
+                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
                         child: provider.imageFile == null
                             ? provider.imageUrl != null &&
                                     provider.imageUrl!.isNotEmpty
@@ -78,7 +78,7 @@ class FormPage extends StatelessWidget {
                   TextFormWidget(
                     controller: provider.aliasController,
                     icon: Icons.text_format,
-                    hintText: 'Alias',
+                    hintText: 'Nick Name',
                     iconsize: 28,
                     textHeight: 10,
                     padding: 20,
@@ -137,15 +137,15 @@ class FormPage extends StatelessWidget {
                                   leading: CircleAvatar(
                                     radius: 30,
                                     backgroundImage: const NetworkImage(
-                                        'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300'),
+                                        'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 100,
                                         width: 100,
                                         child: Image.network(
                                           provider.husband?.imageUrl ??
-                                              'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300',
+                                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -214,15 +214,15 @@ class FormPage extends StatelessWidget {
                                     leading: CircleAvatar(
                                       radius: 30,
                                       backgroundImage: const NetworkImage(
-                                          'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300'),
+                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(50),
-                                        child: Container(
+                                        child: SizedBox(
                                           height: 100,
                                           width: 100,
                                           child: Image.network(
                                             provider.father?.imageUrl ??
-                                                'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300',
+                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -261,15 +261,15 @@ class FormPage extends StatelessWidget {
                                     leading: CircleAvatar(
                                       radius: 30,
                                       backgroundImage: const NetworkImage(
-                                          'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300'),
+                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(50),
-                                        child: Container(
+                                        child: SizedBox(
                                           height: 100,
                                           width: 100,
                                           child: Image.network(
                                             provider.mother?.imageUrl ??
-                                                'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300',
+                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
                                             fit: BoxFit.cover,
                                           ),
                                         ),

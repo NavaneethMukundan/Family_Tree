@@ -87,7 +87,7 @@ class UserDetailsPage extends StatelessWidget {
                                             fit: BoxFit.fill,
                                             image: NetworkImage(data
                                                     .data?.member.imageUrl ??
-                                                'https://thumbs.dreamstime.com/b/cartoon-senior-elderly-old-man-vector-illustration-145176212.jpg'))),
+                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                                   ),
                                 ),
                                 Text(
@@ -135,13 +135,14 @@ class UserDetailsPage extends StatelessWidget {
                                 IconButton(
                                     onPressed: () {
                                       context.read<FormController>().fillFields(
-                                          data.data!.member, 
+                                          data.data!.member,
                                           fatherMember: data.data?.father,
                                           motherMember: data.data?.mother);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => FormPage(),
+                                            builder: (context) =>
+                                                const FormPage(),
                                           ));
                                     },
                                     icon: const Icon(Icons.edit)),
@@ -155,7 +156,7 @@ class UserDetailsPage extends StatelessWidget {
                                       IconButton(
                                           onPressed: () {},
                                           icon: const Icon(Icons.call)),
-                                      Text('Call'),
+                                      const Text('Call'),
                                     ],
                                   )
                                 : const SizedBox(),
@@ -203,7 +204,7 @@ class UserDetailsPage extends StatelessWidget {
                                                   image: const DecorationImage(
                                                       fit: BoxFit.fill,
                                                       image: NetworkImage(
-                                                          'https://thumbs.dreamstime.com/b/cartoon-senior-elderly-old-man-vector-illustration-145176212.jpg'))),
+                                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                                             ),
                                           ),
                                           Text(
@@ -234,7 +235,7 @@ class UserDetailsPage extends StatelessWidget {
                                                   image: const DecorationImage(
                                                       fit: BoxFit.fill,
                                                       image: NetworkImage(
-                                                          'https://thumbs.dreamstime.com/b/cartoon-senior-elderly-old-man-vector-illustration-145176212.jpg'))),
+                                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                                             ),
                                           ),
                                           Text(
@@ -342,7 +343,8 @@ class UserDetailsPage extends StatelessWidget {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => FormPage(fromId:data.data?.member.id),
+                                            builder: (context) => FormPage(
+                                                fromId: data.data?.member.id),
                                           ));
                                     }, // button pressed
                                     child: Column(
@@ -388,7 +390,7 @@ class UserDetailsPage extends StatelessWidget {
                                           fit: BoxFit.fill,
                                           image: NetworkImage(data.data
                                                   ?.spouse?[index].imageUrl ??
-                                              'https://thumbs.dreamstime.com/b/cartoon-senior-elderly-old-man-vector-illustration-145176212.jpg'))),
+                                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                                 ),
                               ),
                               Text(
@@ -443,7 +445,9 @@ class UserDetailsPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FormPage(fromId: data.data?.member.id,),
+                          builder: (context) => FormPage(
+                            fromId: data.data?.member.id,
+                          ),
                         ));
                   }, // button pressed
                   child: Column(
@@ -513,7 +517,7 @@ class UserDetailsPage extends StatelessWidget {
                       image: DecorationImage(
                           fit: BoxFit.fill,
                           image: NetworkImage(child?.imageUrl ??
-                              'https://i.pinimg.com/originals/42/5f/77/425f77d2aa6bf3f1fe63e0b2e94cbc88.jpg'))),
+                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                 ),
               ),
               Text(child?.name ?? ""),

@@ -13,13 +13,15 @@ class OnBoardScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          image: DecorationImage(
-              colorFilter:
-                  ColorFilter.mode(kGrey.withOpacity(0.5), BlendMode.dstATop),
-              fit: BoxFit.cover,
-              image: const AssetImage(
-                'assets/onboard.png',
-              ))), 
+        image: DecorationImage(
+          colorFilter:
+              ColorFilter.mode(kGrey.withOpacity(0.5), BlendMode.dstATop),
+          fit: BoxFit.cover,
+          image: const AssetImage(
+            'assets/edited2.jpg',
+          ),
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -47,15 +49,17 @@ class OnBoardScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(right: 20, bottom: 30),
-          child: IconButton(
-              splashRadius: 50,
-              splashColor: Colors.transparent,
+          padding: const EdgeInsets.only(bottom: 5),
+          child: ElevatedButton(
               onPressed: () {
                 RouteController.pushReplacementRoute(
                     context, const SigninScreen());
               },
-              icon: const Icon(
+              style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  backgroundColor: Colors.transparent,
+                  elevation: 0),
+              child: const Icon(
                 Icons.arrow_right_alt_outlined,
                 color: kWhite,
                 size: 70,
