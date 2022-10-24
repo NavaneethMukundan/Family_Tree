@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
         ],
         elevation: 0,
         title: const Text(
-          'Aith Athikari ',
+          'PP Family',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
       ),

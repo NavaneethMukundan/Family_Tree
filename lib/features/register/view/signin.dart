@@ -26,7 +26,7 @@ class SigninScreen extends StatelessWidget {
                         bottomRight: Radius.circular(10)),
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/login2.jpg'))),
+                        image: AssetImage('assets/edited2.jpg'))),
               ),
               kheight20,
               const Text(
@@ -90,7 +90,8 @@ class SigninScreen extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ));
-              })
+              }),
+              kheight50,
             ],
           ),
         ),
