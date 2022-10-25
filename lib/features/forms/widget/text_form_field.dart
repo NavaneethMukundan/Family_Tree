@@ -1,27 +1,28 @@
+import 'package:family_tree/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class TextFormWidget extends StatelessWidget {
-  TextFormWidget(
+  const TextFormWidget(
       {Key? key,
       required this.icon,
       required this.hintText,
-      required this.iconsize,
-      required this.textHeight,
-      required this.padding,
-      required this.color,
-      required this.radius,
-      required this.iconcolor,
       required this.controller,
+      this.iconsize = 28,
+      this.textHeight = 10,
+      this.padding = 20,
+      this.color = kBlack,
+      this.radius = 15,
+      this.iconcolor = kBlack,
       this.hiddentext = false,
       this.validate = false,
       this.isNumber = false,
       this.onChanged,
       this.sufixIcon})
       : super(key: key);
-  bool isNumber = false;
-  bool validate = false;
-  void Function(String)? onChanged;
+  final bool isNumber ;
+  final bool validate ;
+  final void Function(String)? onChanged;
   final IconData icon;
   final IconButton? sufixIcon;
   final String hintText;
@@ -32,7 +33,7 @@ class TextFormWidget extends StatelessWidget {
   final Color iconcolor;
   final double radius;
   final TextEditingController controller;
-  bool hiddentext = false;
+  final bool hiddentext;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -59,11 +60,10 @@ class TextFormWidget extends StatelessWidget {
           borderSide: BorderSide(color: color),
         ),
       ),
-      
-      keyboardType:isNumber? TextInputType.number:null,
-      inputFormatters:isNumber? <TextInputFormatter>[
-        FilteringTextInputFormatter.digitsOnly
-      ]:null, 
+      keyboardType: isNumber ? TextInputType.number : null,
+      inputFormatters: isNumber
+          ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
+          : null,
       validator: (value) {
         if (!validate) return null;
         if (value == null || value.isEmpty) {
@@ -71,7 +71,7 @@ class TextFormWidget extends StatelessWidget {
         } else {
           return null;
         }
-      }, 
+      },
     );
   }
 }

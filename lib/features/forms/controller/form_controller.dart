@@ -47,8 +47,18 @@ class FormController extends ChangeNotifier {
     notifyListeners();
   }
 
+  clearFather() {
+    father = null;
+    notifyListeners();
+  }
+
   addMother(Member member) {
     mother = member;
+    notifyListeners();
+  }
+
+  clearMother() {
+    mother = null;
     notifyListeners();
   }
 
@@ -57,22 +67,26 @@ class FormController extends ChangeNotifier {
     notifyListeners();
   }
 
+  clearHusband() {
+    husband = null;
+    notifyListeners();
+  }
+
   Future<String?> addMember(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
-      print('fasdfs');
-
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please fill required fields.')));
       return null;
     }
-    print('object');
     if (isMemberInlaw && husband == null) {
-      print('husband is null');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Please Select Husband')));
       return null;
     }
     if (!isMemberInlaw && (father == null || mother == null)) {
-      print('parents  is null');
-
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Please Select Parents')));
+      return null;
       //return;
     }
     print('validation done');

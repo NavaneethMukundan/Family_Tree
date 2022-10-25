@@ -67,11 +67,6 @@ class FormPage extends StatelessWidget {
                     controller: provider.nameController,
                     icon: Icons.person,
                     hintText: 'Name',
-                    iconsize: 28,
-                    textHeight: 10,
-                    padding: 20,
-                    color: kBlack,
-                    radius: 15,
                     iconcolor: kBlack,
                   ),
                   kheight,
@@ -79,12 +74,6 @@ class FormPage extends StatelessWidget {
                     controller: provider.aliasController,
                     icon: Icons.text_format,
                     hintText: 'Nick Name',
-                    iconsize: 28,
-                    textHeight: 10,
-                    padding: 20,
-                    color: kBlack,
-                    radius: 15,
-                    iconcolor: kBlack,
                   ),
                   kheight,
                   TextFormWidget(
@@ -92,12 +81,6 @@ class FormPage extends StatelessWidget {
                     controller: provider.houseController,
                     icon: Icons.home,
                     hintText: 'House Name',
-                    iconsize: 28,
-                    textHeight: 10,
-                    padding: 20,
-                    color: kBlack,
-                    radius: 15,
-                    iconcolor: kBlack,
                   ),
                   kheight,
                   Row(children: [
@@ -119,75 +102,78 @@ class FormPage extends StatelessWidget {
                     visible: provider.isMemberInlaw,
                     child: Column(
                       children: [
-                        Card(
-                          child: provider.husband == null
-                              ? ListTile(
-                                  title: const Text('Please Add Husband'),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SearchPage(
-                                                  title: "Husband"),
-                                        ));
-                                  },
-                                )
-                              : ListTile(
-                                  leading: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: const NetworkImage(
-                                        'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child: Image.network(
-                                          provider.husband?.imageUrl ??
-                                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
-                                          fit: BoxFit.cover,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Husband"),
+                            Card(
+                              child: provider.husband == null
+                                  ? ListTile(
+                                      title: const Text('Please Add Husband'),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SearchPage(
+                                                      title: "Husband"),
+                                            ));
+                                      },
+                                    )
+                                  : ListTile(
+                                      trailing: InkWell(
+                                          child: const Icon(Icons.close,
+                                              color: Colors.red),
+                                          onTap: () {
+                                            context
+                                                .read<FormController>()
+                                                .clearHusband();
+                                          }),
+                                      leading: CircleAvatar(
+                                        radius: 30,
+                                        backgroundImage: const NetworkImage(
+                                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Image.network(
+                                              provider.husband?.imageUrl ??
+                                                  'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
+                                      title: Text(provider.husband?.name ?? ""),
+                                      subtitle: Text(
+                                          provider.husband?.fatherName ?? ""),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SearchPage(
+                                                      title: "Husband"),
+                                            ));
+                                      },
                                     ),
-                                  ),
-                                  title: Text(provider.husband?.name ?? ""),
-                                  subtitle:
-                                      Text(provider.husband?.fatherName ?? ""),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SearchPage(
-                                                  title: "Husband"),
-                                        ));
-                                  },
-                                ),
+                            ),
+                          ],
                         ),
                         kheight,
                         TextFormWidget(
                           controller: provider.fatherNameController,
                           icon: Icons.text_format_outlined,
                           hintText: 'Name of Father',
-                          iconsize: 28,
-                          textHeight: 10,
-                          padding: 20,
-                          color: kBlack,
-                          radius: 15,
-                          iconcolor: kBlack,
                         ),
                         kheight,
                         TextFormWidget(
                           controller: provider.motherNameController,
                           icon: Icons.text_format_outlined,
                           hintText: 'Name of Mother',
-                          iconsize: 28,
-                          textHeight: 10,
-                          padding: 20,
-                          color: kBlack,
-                          radius: 15,
-                          iconcolor: kBlack,
                         ),
                       ],
                     ),
@@ -196,99 +182,130 @@ class FormPage extends StatelessWidget {
                       visible: !provider.isMemberInlaw,
                       child: Column(
                         children: [
-                          Card(
-                            child: provider.father == null
-                                ? ListTile(
-                                    title: const Text('Please Add Father'),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SearchPage(
-                                                    title: "Father"),
-                                          ));
-                                    },
-                                  )
-                                : ListTile(
-                                    leading: CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: const NetworkImage(
-                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.network(
-                                            provider.father?.imageUrl ??
-                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
-                                            fit: BoxFit.cover,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text("Father"),
+                              Card(
+                                child: provider.father == null
+                                    ? ListTile(
+                                        title: const Text('Please Add Father'),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchPage(
+                                                        title: "Father"),
+                                              ));
+                                        },
+                                      )
+                                    : ListTile(
+                                        trailing: InkWell(
+                                            child: const Icon(Icons.close,
+                                                color: Colors.red),
+                                            onTap: () {
+                                              context
+                                                  .read<FormController>()
+                                                  .clearFather();
+                                            }),
+                                        leading: CircleAvatar(
+                                          radius: 30,
+                                          backgroundImage: const NetworkImage(
+                                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: SizedBox(
+                                              height: 100,
+                                              width: 100,
+                                              child: Image.network(
+                                                provider.father?.imageUrl ??
+                                                    'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
                                         ),
+                                        title:
+                                            Text(provider.father?.name ?? ""),
+                                        subtitle: Text(
+                                            provider.father?.fatherName ?? ""),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchPage(
+                                                        title: "Father"),
+                                              ));
+                                        },
                                       ),
-                                    ),
-                                    title: Text(provider.father?.name ?? ""),
-                                    subtitle:
-                                        Text(provider.father?.fatherName ?? ""),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SearchPage(
-                                                    title: "Father"),
-                                          ));
-                                    },
-                                  ),
+                              ),
+                            ],
                           ),
                           kheight,
-                          Card(
-                            child: provider.mother == null
-                                ? ListTile(
-                                    title: const Text('Please Add Mother'),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SearchPage(
-                                                    title: "Mother"),
-                                          ));
-                                    },
-                                  )
-                                : ListTile(
-                                    leading: CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: const NetworkImage(
-                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.network(
-                                            provider.mother?.imageUrl ??
-                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
-                                            fit: BoxFit.cover,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text("Mother"),
+                              Card(
+                                child: provider.mother == null
+                                    ? ListTile(
+                                        title: const Text('Please Add Mother'),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchPage(
+                                                        title: "Mother"),
+                                              ));
+                                        },
+                                      )
+                                    : ListTile(
+                                        trailing: InkWell(
+                                            onTap: () {
+                                              context
+                                                  .read<FormController>()
+                                                  .clearMother();
+                                            },
+                                            child: const Icon(Icons.close,
+                                                color: Colors.red)),
+                                        leading: CircleAvatar(
+                                          radius: 30,
+                                          backgroundImage: const NetworkImage(
+                                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: SizedBox(
+                                              height: 100,
+                                              width: 100,
+                                              child: Image.network(
+                                                provider.mother?.imageUrl ??
+                                                    'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
                                         ),
+                                        title: Text(provider.mother?.name ??
+                                            "Please add Mother Name"),
+                                        subtitle: Text(
+                                            provider.mother?.husbandName ?? ""),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchPage(
+                                                        title: "Mother"),
+                                              ));
+                                        },
                                       ),
-                                    ),
-                                    title: Text(provider.mother?.name ??
-                                        "Please add Mother Name"),
-                                    subtitle: Text(
-                                        provider.mother?.husbandName ?? ""),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SearchPage(
-                                                    title: "Mother"),
-                                          ));
-                                    },
-                                  ),
+                              ),
+                            ],
                           ),
                         ],
                       )),
@@ -297,24 +314,12 @@ class FormPage extends StatelessWidget {
                     controller: provider.mobileController,
                     icon: Icons.phone,
                     hintText: 'Mobile',
-                    iconsize: 28,
-                    textHeight: 10,
-                    padding: 20,
-                    color: kBlack,
-                    radius: 15,
-                    iconcolor: kBlack,
                   ),
                   kheight,
                   TextFormWidget(
                     controller: provider.addressController,
                     icon: Icons.text_format_outlined,
                     hintText: 'Address',
-                    iconsize: 28,
-                    textHeight: 10,
-                    padding: 20,
-                    color: kBlack,
-                    radius: 15,
-                    iconcolor: kBlack,
                   ),
                   kheight,
                   Row(children: [
@@ -340,24 +345,12 @@ class FormPage extends StatelessWidget {
                           controller: provider.husbandNameController,
                           icon: Icons.text_format_outlined,
                           hintText: 'Husband Name',
-                          iconsize: 28,
-                          textHeight: 10,
-                          padding: 20,
-                          color: kBlack,
-                          radius: 15,
-                          iconcolor: kBlack,
                         ),
                         kheight,
                         TextFormWidget(
                           controller: provider.childrenController,
                           icon: Icons.text_format_outlined,
                           hintText: 'Children',
-                          iconsize: 28,
-                          textHeight: 10,
-                          padding: 20,
-                          color: kBlack,
-                          radius: 15,
-                          iconcolor: kBlack,
                         ),
                       ],
                     ),

@@ -1,6 +1,7 @@
 import 'package:family_tree/features/forms/controller/form_controller.dart';
 import 'package:family_tree/features/forms/controller/search_controller.dart';
 import 'package:family_tree/features/forms/view/forms_page.dart';
+import 'package:family_tree/features/forms/view/search_page.dart';
 import 'package:family_tree/features/member/controllers/member_provider.dart';
 import 'package:family_tree/features/member/models/family_tree_model.dart';
 import 'package:family_tree/features/member/models/member_model.dart';
@@ -35,7 +36,9 @@ class UserDetailsPage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
-            child: IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+            child: IconButton(onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage(title: 'Member')));
+            }, icon: const Icon(Icons.search)),
           )
         ],
         elevation: 0,
