@@ -1,5 +1,6 @@
 import 'package:family_tree/features/forms/controller/form_controller.dart';
 import 'package:family_tree/features/forms/controller/search_controller.dart';
+import 'package:family_tree/features/home/view/details_page/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,13 +34,15 @@ class ListMembersWidget extends StatelessWidget {
                       if (title == "Husband") {
                         context.read<FormController>().addHusband(member);
                       }
-                      // context.read<FormController>().father = member;
                       Navigator.pop(context);
+                      if(title == "Member"){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailsPage(member: member,),));
+                      }
                     }),
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage: const NetworkImage(
-                          'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300'),
+                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: Container(
@@ -47,7 +50,7 @@ class ListMembersWidget extends StatelessWidget {
                           width: 100,
                           child: Image.network(
                             member.imageUrl ??
-                                'https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?compress=1&resize=400x300',
+                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg',
                             fit: BoxFit.cover,
                           ),
                         ),

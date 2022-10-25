@@ -1,3 +1,4 @@
+import 'package:family_tree/features/forms/view/search_page.dart';
 import 'package:family_tree/features/home/view/details_page/user_details.dart';
 import 'package:family_tree/features/member/controllers/member_provider.dart';
 import 'package:family_tree/features/member/models/family_tree_model.dart';
@@ -32,7 +33,10 @@ class HomePage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
-            child: IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+            child: IconButton(onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage(title: 'Member'))); 
+
+            }, icon: const Icon(Icons.search)),
           )
         ],
         elevation: 0,
