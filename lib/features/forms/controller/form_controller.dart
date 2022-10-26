@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -17,6 +16,7 @@ class FormController extends ChangeNotifier {
   final nameController = TextEditingController();
   final aliasController = TextEditingController();
   final houseController = TextEditingController();
+  final birthYearController = TextEditingController();
 
   Member? father;
   Member? mother;
@@ -89,6 +89,14 @@ class FormController extends ChangeNotifier {
       return null;
       //return;
     }
+    if(father!=null&& mother!=null){
+      bool a = father?.id.toString() != mother?.husbandId.toString();
+      if(a){
+        ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Parents missmatch')));
+      return null;
+      }
+    }
     print('validation done');
     final DocumentReference<Map<String, dynamic>> fireMember;
 
@@ -127,6 +135,7 @@ class FormController extends ChangeNotifier {
       husbandName: isFemale ? husbandNameController.text : null,
       children: children,
       husbandId: isMemberInlaw ? husband!.id : null,
+      birthYear: birthYearController.text,
       searchStrings: getSearchString(),
     );
 
@@ -225,6 +234,7 @@ class FormController extends ChangeNotifier {
     childrenController.clear();
     fatherNameController.clear();
     motherNameController.clear();
+    birthYearController.clear();
 
     imageFile = null;
     imageUrl = null;
@@ -249,6 +259,7 @@ class FormController extends ChangeNotifier {
     childrenController.text = member.children?.join(',') ?? '';
     fatherNameController.text = member.fatherName ?? '';
     motherNameController.text = member.motherName ?? '';
+    birthYearController.text = member.birthYear ?? '0';
 
     imageFile = null;
     imageUrl = member.imageUrl;

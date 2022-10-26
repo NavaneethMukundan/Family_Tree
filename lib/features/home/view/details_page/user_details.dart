@@ -9,6 +9,8 @@ import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import "package:collection/collection.dart";
+
 
 class UserDetailsPage extends StatelessWidget {
   const UserDetailsPage(
@@ -36,9 +38,15 @@ class UserDetailsPage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
-            child: IconButton(onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage(title: 'Member')));
-            }, icon: const Icon(Icons.search)),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const SearchPage(title: 'Member')));
+                },
+                icon: const Icon(Icons.search)),
           )
         ],
         elevation: 0,
@@ -473,6 +481,15 @@ class UserDetailsPage extends StatelessWidget {
         ),
       )
     ];
+    // final childrenData = data.data?.children;
+    // if (childrenData != null) {
+    //   if (childrenData.isNotEmpty) {
+    //     childrenData.sort(((a, b) {
+
+    //        return compareAsciiUpperCase( b.birthYear!,a.birthYear!  );
+    //     }));
+    //   }
+    // } 
     final genaratedList =
         List<Widget>.generate(data.data?.children?.length ?? 0, (index) {
       final child = data.data?.children?[index];

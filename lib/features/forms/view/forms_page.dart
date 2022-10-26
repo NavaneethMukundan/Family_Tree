@@ -314,6 +314,14 @@ class FormPage extends StatelessWidget {
                     controller: provider.mobileController,
                     icon: Icons.phone,
                     hintText: 'Mobile',
+                    isNumber: true,
+                  ),
+                  kheight,
+                  TextFormWidget(
+                    controller: provider.birthYearController,
+                    icon: Icons.cake,
+                    hintText: 'Year of Birth',
+                    isNumber: true,
                   ),
                   kheight,
                   TextFormWidget(
