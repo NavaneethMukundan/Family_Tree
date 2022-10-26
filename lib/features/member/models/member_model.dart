@@ -7,6 +7,7 @@ class Member {
   String? address;
   String? fatherId;
   String? motherId;
+  String? birthYear;
   List<String?>? details;
   String? mobile;
 
@@ -30,6 +31,7 @@ class Member {
     this.isFemale,
     this.fatherId,
     this.motherId,
+    this.birthYear,
     this.details,
     this.mobile,
     this.imageUrl,
@@ -55,6 +57,7 @@ class Member {
     json['house'] = house;
     json['fatherId'] = fatherId;
     json['motherId'] = motherId;
+    json['birthYear'] = birthYear;
     json['address'] = address;
     json['details'] = details;
     json['mobile'] = mobile;
@@ -81,6 +84,7 @@ class Member {
     house = json['house'] as String?;
     fatherId = json['fatherId'] as String?;
     motherId = json['motherId'] as String?;
+    birthYear = json['birthYear'] ??'0';
     address = json['address'] as String?;
     // print(json['details'].runtimeType);
     // print(json['details']); 

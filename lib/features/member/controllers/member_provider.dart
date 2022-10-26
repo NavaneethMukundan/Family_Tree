@@ -19,9 +19,9 @@ class FamilyTreeProvider extends ChangeNotifier {
       members = member.toJson();
       memberId = member.id!;
     }
-
+ 
     final children = await db.where('fatherId', isEqualTo: memberId).get();
-    Member? mother;
+    Member? mother;  
     Member? father;
 
     if (motherMember != null) {

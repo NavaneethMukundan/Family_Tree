@@ -6,6 +6,8 @@ import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
 import 'package:flutter/material.dart';
+import "package:collection/collection.dart";
+
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -207,6 +209,15 @@ class HomePage extends StatelessWidget {
   List<Widget> buillChildrenList(
       AsyncSnapshot<FamilyTreeModel> data, BuildContext context) {
     List<Widget> list = [];
+        final childrenData = data.data?.children;
+    if (childrenData != null) {
+      if (childrenData.isNotEmpty) {
+        childrenData.sort(((a, b) {
+
+           return compareAsciiUpperCase( b.birthYear!,a.birthYear!  );
+        }));
+      }
+    } 
     final genaratedList =
         List<Widget>.generate(data.data?.children?.length ?? 0, (index) {
       final child = data.data?.children?[index];
