@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
 
-
 class UserDetailsPage extends StatelessWidget {
   const UserDetailsPage(
       {this.memberId = 'pUEAQb8VBcSazFNKFTkw',
@@ -54,11 +53,6 @@ class UserDetailsPage extends StatelessWidget {
           'Details ',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() {
-          FamilyTreeProvider().findFamily('voBhMo6Y6MnP1HbRpFfT');
-        }),
       ),
       body: FutureBuilder(
           future: FamilyTreeProvider().findFamily(
@@ -195,65 +189,95 @@ class UserDetailsPage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Card(
-                                            elevation: 20,
-                                            shadowColor: kGrey,
-                                            shape: const CircleBorder(),
-                                            color: kblue,
-                                            child: Container(
-                                              height: 70,
-                                              width: 70,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                  border:
-                                                      Border.all(color: kBlack),
-                                                  image: const DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: NetworkImage(
-                                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserDetailsPage(
+                                                // memberId: child?.id,
+                                                member: data.data?.father,
+                                              ),
+                                            ));
+                                      },
+                                      child: SizedBox(
+                                        width: 100,
+                                        child: Column(
+                                          children: [
+                                            Card(
+                                              elevation: 20,
+                                              shadowColor: kGrey,
+                                              shape: const CircleBorder(),
+                                              color: kblue,
+                                              child: Container(
+                                                height: 70,
+                                                width: 70,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    border: Border.all(
+                                                        color: kBlack),
+                                                    image: const DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: NetworkImage(
+                                                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            data.data?.father?.name ?? "Father",
-                                            textAlign: TextAlign.center,
-                                          )
-                                        ],
+                                            Text(
+                                              data.data?.father?.name ??
+                                                  "Father",
+                                              textAlign: TextAlign.center,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     kWidth20,
-                                    SizedBox(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Card(
-                                            elevation: 20,
-                                            shadowColor: kGrey,
-                                            shape: const CircleBorder(),
-                                            color: kblue,
-                                            child: Container(
-                                              height: 70,
-                                              width: 70,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                  border:
-                                                      Border.all(color: kBlack),
-                                                  image: const DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: NetworkImage(
-                                                          'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserDetailsPage(
+                                                // memberId: child?.id,
+                                                member: data.data?.mother,
+                                              ),
+                                            ));
+                                      },
+                                      child: SizedBox(
+                                        width: 100,
+                                        child: Column(
+                                          children: [
+                                            Card(
+                                              elevation: 20,
+                                              shadowColor: kGrey,
+                                              shape: const CircleBorder(),
+                                              color: kblue,
+                                              child: Container(
+                                                height: 70,
+                                                width: 70,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    border: Border.all(
+                                                        color: kBlack),
+                                                    image: const DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: NetworkImage(
+                                                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            data.data?.mother?.name ?? "Mother",
-                                            textAlign: TextAlign.center,
-                                          )
-                                        ],
+                                            Text(
+                                              data.data?.mother?.name ??
+                                                  "Mother",
+                                              textAlign: TextAlign.center,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -382,34 +406,52 @@ class UserDetailsPage extends StatelessWidget {
                     )
                   : Row(
                       children: [
-                        SizedBox(
-                          width: 100,
-                          child: Column(
-                            children: [
-                              Card(
-                                elevation: 20,
-                                shadowColor: kGrey,
-                                shape: const CircleBorder(),
-                                color: kblue,
-                                child: Container(
-                                  height: 70,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: Border.all(color: kBlack),
-                                      image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(data.data
-                                                  ?.spouse?[index].imageUrl ??
-                                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<FormController>().clearAllFields();
+
+                            context.read<FormController>().fillFields(
+                                  data.data!.spouse![index],
+                                );
+                            context.read<FormController>().addRootMember(
+                                husbandMember: data.data?.member);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FormPage(
+                                    fromId: data.data?.member.id,
+                                  ),
+                                ));
+                          },
+                          child: SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: 20,
+                                  shadowColor: kGrey,
+                                  shape: const CircleBorder(),
+                                  color: kblue,
+                                  child: Container(
+                                    height: 70,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border.all(color: kBlack),
+                                        image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: NetworkImage(data.data
+                                                    ?.spouse?[index].imageUrl ??
+                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                data.data?.spouse?[index].name ??
-                                    "Spuose ${index + 1}",
-                                textAlign: TextAlign.center,
-                              )
-                            ],
+                                Text(
+                                  data.data?.spouse?[index].name ??
+                                      "Spuose ${index + 1}",
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -481,15 +523,14 @@ class UserDetailsPage extends StatelessWidget {
         ),
       )
     ];
-    // final childrenData = data.data?.children;
-    // if (childrenData != null) {
-    //   if (childrenData.isNotEmpty) {
-    //     childrenData.sort(((a, b) {
-
-    //        return compareAsciiUpperCase( b.birthYear!,a.birthYear!  );
-    //     }));
-    //   }
-    // } 
+    final childrenData = data.data?.children;
+    if (childrenData != null) {
+      if (childrenData.isNotEmpty) {
+        childrenData.sort(((a, b) {
+          return compareAsciiUpperCase(b.birthYear!, a.birthYear!);
+        }));
+      }
+    }
     final genaratedList =
         List<Widget>.generate(data.data?.children?.length ?? 0, (index) {
       final child = data.data?.children?[index];
