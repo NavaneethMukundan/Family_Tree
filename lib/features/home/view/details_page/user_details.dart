@@ -2,11 +2,13 @@ import 'package:family_tree/features/forms/controller/form_controller.dart';
 import 'package:family_tree/features/forms/controller/search_controller.dart';
 import 'package:family_tree/features/forms/view/forms_page.dart';
 import 'package:family_tree/features/forms/view/search_page.dart';
+import 'package:family_tree/features/home/widget/bottom_sheet.dart';
 import 'package:family_tree/features/member/controllers/member_provider.dart';
 import 'package:family_tree/features/member/models/family_tree_model.dart';
 import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
+import 'package:family_tree/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
@@ -495,6 +497,7 @@ class UserDetailsPage extends StatelessWidget {
                     context.read<FormController>().addRootMember(
                         fatherMember: data.data?.member,
                         motherMember: spouses[0]);
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -551,16 +554,43 @@ class UserDetailsPage extends StatelessWidget {
             // fatherMember:  data.data?.member,
             // motherMember: childsMotherMember);
             // Navigator.push(context, MaterialPageRoute(builder: (context) => FormPage(),));
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserDetailsPage(
-                    // memberId: child?.id,
-                    member: child,
-                    fatherMember: data.data?.member,
-                    motherMember: childsMotherMember,
-                  ),
-                ));
+            showModalBottomSheet(
+                context: context,
+                builder: (builder) {
+                  return BottomSheetWidget(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(child?.imageUrl ??
+                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg')),
+                    name: child?.name ?? "",
+                    houseName: data.data?.member.house ?? '',
+                    fathername: data.data?.member.name.toString() ?? '',
+                    childrenName: data.data?.children.toString() ?? '',
+                    ontap: () {
+                      RouteController.popupRoute(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserDetailsPage(
+                              // memberId: child?.id,
+                              member: child,
+                              fatherMember: data.data?.member,
+                              motherMember: childsMotherMember,
+                            ),
+                          ));
+                    },
+                  );
+                });
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => UserDetailsPage(
+            //         // memberId: child?.id,
+            //         member: child,
+            //         fatherMember: data.data?.member,
+            //         motherMember: childsMotherMember,
+            //       ),
+            //     ));
           },
           child: Column(
             children: [
