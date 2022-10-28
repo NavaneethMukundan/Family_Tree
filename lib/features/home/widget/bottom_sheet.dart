@@ -11,13 +11,15 @@ class BottomSheetWidget extends StatelessWidget {
       required this.name,
       required this.houseName,
       required this.fathername,
-      required this.childrenName});
+      required this.childrenName,
+      required this.ontap});
 
   final DecorationImage image;
   final String name;
   final String houseName;
   final String fathername;
   final String childrenName;
+  final Function ontap;
 
   @override
   Widget build(BuildContext context) {
@@ -116,8 +118,7 @@ class BottomSheetWidget extends StatelessWidget {
           kheight20,
           ElevatedButton(
               onPressed: () {
-                RouteController.popupRoute(context);
-                RouteController.pushRoute(context,  UserDetailsPage());
+                ontap();
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: kBlack, minimumSize: const Size(230, 60)),

@@ -1,13 +1,14 @@
 import 'package:family_tree/features/forms/view/search_page.dart';
 import 'package:family_tree/features/home/view/details_page/user_details.dart';
+import 'package:family_tree/features/home/widget/bottom_sheet.dart';
 import 'package:family_tree/features/member/controllers/member_provider.dart';
 import 'package:family_tree/features/member/models/family_tree_model.dart';
 import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
+import 'package:family_tree/utils/routes.dart';
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
-
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -35,10 +36,15 @@ class HomePage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
-            child: IconButton(onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage(title: 'Member'))); 
-
-            }, icon: const Icon(Icons.search)),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const SearchPage(title: 'Member')));
+                },
+                icon: const Icon(Icons.search)),
           )
         ],
         elevation: 0,
@@ -68,6 +74,35 @@ class HomePage extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
+                              // showModalBottomSheet(
+                              //     context: context,
+                              //     builder: (builder) {
+                              //       return BottomSheetWidget(
+                              //         image: DecorationImage(
+                              //             image: NetworkImage(data
+                              //                     .data?.member.imageUrl ??
+                              //                 'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg')),
+                              //         name: data.data?.member.name.toString() ??
+                              //             '',
+                              //         houseName: data.data?.member.house ?? '',
+                              //         fathername:
+                              //             data.data?.father.toString() ?? '',
+                              //         childrenName:
+                              //             data.data?.children.toString() ?? '',
+                              //         ontap: () {
+                              //           RouteController.popupRoute(context);
+                              //           Navigator.push(
+                              //               context,
+                              //               MaterialPageRoute(
+                              //                 builder: (context) =>
+                              //                     UserDetailsPage(
+                              //                         memberId:
+                              //                             data.data?.member.id),
+                              //               ));
+                              //         },
+                              //       );
+                              //     });
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -209,15 +244,14 @@ class HomePage extends StatelessWidget {
   List<Widget> buillChildrenList(
       AsyncSnapshot<FamilyTreeModel> data, BuildContext context) {
     List<Widget> list = [];
-        final childrenData = data.data?.children;
+    final childrenData = data.data?.children;
     if (childrenData != null) {
       if (childrenData.isNotEmpty) {
         childrenData.sort(((a, b) {
-
-           return compareAsciiUpperCase( b.birthYear!,a.birthYear!  );
+          return compareAsciiUpperCase(b.birthYear!, a.birthYear!);
         }));
       }
-    } 
+    }
     final genaratedList =
         List<Widget>.generate(data.data?.children?.length ?? 0, (index) {
       final child = data.data?.children?[index];
@@ -234,16 +268,42 @@ class HomePage extends StatelessWidget {
         width: 100,
         child: GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserDetailsPage(
-                    // memberId: child?.id,
-                    member: child,
-                    fatherMember: data.data?.member,
-                    motherMember: childsMotherMember,
-                  ),
-                ));
+            showModalBottomSheet(
+                context: context,
+                builder: (builder) {
+                  return BottomSheetWidget(
+                    image: DecorationImage(
+                        image: NetworkImage(data.data?.member.imageUrl ??
+                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg')),
+                    name: child?.name ?? "",
+                    houseName: data.data?.member.house ?? '',
+                    fathername: data.data?.member.name.toString() ?? '',
+                    childrenName: data.data?.children.toString() ?? '',
+                    ontap: () {
+                      RouteController.popupRoute(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserDetailsPage(
+                              // memberId: child?.id,
+                              member: child,
+                              fatherMember: data.data?.member,
+                              motherMember: childsMotherMember,
+                            ),
+                          ));
+                    },
+                  );
+                });
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => UserDetailsPage(
+            //         // memberId: child?.id,
+            //         member: child,
+            //         fatherMember: data.data?.member,
+            //         motherMember: childsMotherMember,
+            //       ),
+            //     ));
           },
           child: Column(
             children: [
