@@ -9,7 +9,6 @@ import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
 import 'package:family_tree/utils/routes.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
@@ -29,331 +28,379 @@ class UserDetailsPage extends StatelessWidget {
   final ValueNotifier<String> selectedMotherId = ValueNotifier<String>('all');
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kBlack,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: IconButton(
+    return Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0XFFE8E8E8), Color(0XFF6F9040)])),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            toolbarHeight: 70,
+            automaticallyImplyLeading: false,
+            leading: IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const SearchPage(title: 'Member')));
+                  RouteController.popupRoute(context);
                 },
-                icon: const Icon(Icons.search)),
-          )
-        ],
-        elevation: 0,
-        title: const Text(
-          'Details ',
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: FutureBuilder(
-          future: FamilyTreeProvider().findFamily(
-            memberId ?? 'pUEAQb8VBcSazFNKFTkw',
-            member: member,
-            fatherMember: fatherMember,
-            motherMember: motherMember,
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: kBlack,
+                )),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 18.0),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const SearchPage(title: 'Member')));
+                    },
+                    icon: const Icon(
+                      Icons.search,
+                      color: kBlack,
+                      size: 30,
+                    )),
+              )
+            ],
+            elevation: 0,
+            title: const Center(
+              child: Text(
+                'DETAILS',
+                style: TextStyle(
+                    fontSize: 30, fontWeight: FontWeight.w800, color: kBlack),
+              ),
+            ),
           ),
-          builder: (context, AsyncSnapshot<FamilyTreeModel> data) {
-            if (data.hasData) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      kheight20,
-                      Row(
+          body: FutureBuilder(
+              future: FamilyTreeProvider().findFamily(
+                memberId ?? 'pUEAQb8VBcSazFNKFTkw',
+                member: member,
+                fatherMember: fatherMember,
+                motherMember: motherMember,
+              ),
+              builder: (context, AsyncSnapshot<FamilyTreeModel> data) {
+                if (data.hasData) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: SingleChildScrollView(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              selectedMotherId.value = 'all';
-                              selectedMotherId.notifyListeners();
-                            },
-                            child: SizedBox(
-                              width: 100,
-                              child: Column(
-                                children: [
-                                  Card(
-                                    elevation: 20,
-                                    shadowColor: kGrey,
-                                    shape: const CircleBorder(),
-                                    color: kblue,
-                                    child: Container(
-                                      height: 90,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          border: Border.all(color: kBlack),
-                                          image: DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: NetworkImage(data
-                                                      .data?.member.imageUrl ??
-                                                  'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
-                                    ),
-                                  ),
-                                  Text(
-                                    data.data?.member.name.toString() ?? '',
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          kWidth20,
-                          buildSpouseList(data)
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    data.data?.member.mobile ?? '',
-                                    style: const TextStyle(
-                                      color: Color(0xff1f1f1f),
-                                      fontSize: 20,
-                                      fontFamily: "Inter",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    data.data?.member.house ?? '',
-                                    style: const TextStyle(
-                                      color: Color(0xff1f1f1f),
-                                      fontSize: 16,
-                                      fontFamily: "Inter",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      context.read<FormController>().fillFields(
-                                          data.data!.member,
-                                          fatherMember: data.data?.father,
-                                          motherMember: data.data?.mother);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const FormPage(),
-                                          ));
-                                    },
-                                    icon: const Icon(Icons.edit)),
-                                const Text('Edit'),
-                              ],
-                            ),
-                            kWidth20,
-                            data.data!.member.mobile!.isNotEmpty
-                                ? Column(
+                          kheight20,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  selectedMotherId.value = 'all';
+                                  selectedMotherId.notifyListeners();
+                                },
+                                child: SizedBox(
+                                  width: 150,
+                                  child: Column(
                                     children: [
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(Icons.call)),
-                                      const Text('Call'),
+                                      Card(
+                                        elevation: 20,
+                                        shadowColor: kGrey,
+                                        shape: const CircleBorder(),
+                                        color: kblue,
+                                        child: Container(
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              border: Border.all(color: kBlack),
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(data.data
+                                                          ?.member.imageUrl ??
+                                                      'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                        ),
+                                      ),
+                                      kheight,
+                                      Text(
+                                        data.data?.member.name.toString() ?? '',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )
                                     ],
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
-                      ),
-                      Image.asset('assets/design.png', color: kBlack),
-                      const Text(
-                        'Family',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
-                      kheight,
-                      data.data?.father != null || data.data?.mother != null
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Parents',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800),
+                                  ),
                                 ),
-                                kheight20,
-                                Row(
+                              ),
+                              kWidth10,
+                              buildSpouseList(data)
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserDetailsPage(
-                                                // memberId: child?.id,
-                                                member: data.data?.father,
-                                              ),
-                                            ));
-                                      },
-                                      child: SizedBox(
-                                        width: 100,
-                                        child: Column(
-                                          children: [
-                                            Card(
-                                              elevation: 20,
-                                              shadowColor: kGrey,
-                                              shape: const CircleBorder(),
-                                              color: kblue,
-                                              child: Container(
-                                                height: 70,
-                                                width: 70,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    border: Border.all(
-                                                        color: kBlack),
-                                                    image: const DecorationImage(
-                                                        fit: BoxFit.fill,
-                                                        image: NetworkImage(
-                                                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
-                                              ),
-                                            ),
-                                            Text(
-                                              data.data?.father?.name ??
-                                                  "Father",
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Text(
+                                        data.data?.member.mobile ?? '',
+                                        style: const TextStyle(
+                                          color: Color(0xff1f1f1f),
+                                          fontSize: 20,
+                                          fontFamily: "Inter",
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ),
-                                    kWidth20,
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserDetailsPage(
-                                                // memberId: child?.id,
-                                                member: data.data?.mother,
-                                              ),
-                                            ));
-                                      },
-                                      child: SizedBox(
-                                        width: 100,
-                                        child: Column(
-                                          children: [
-                                            Card(
-                                              elevation: 20,
-                                              shadowColor: kGrey,
-                                              shape: const CircleBorder(),
-                                              color: kblue,
-                                              child: Container(
-                                                height: 70,
-                                                width: 70,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    border: Border.all(
-                                                        color: kBlack),
-                                                    image: const DecorationImage(
-                                                        fit: BoxFit.fill,
-                                                        image: NetworkImage(
-                                                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
-                                              ),
-                                            ),
-                                            Text(
-                                              data.data?.mother?.name ??
-                                                  "Mother",
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Text(
+                                        data.data?.member.house ?? '',
+                                        style: const TextStyle(
+                                          color: Color(0xff1f1f1f),
+                                          fontSize: 20,
+                                          fontFamily: "Inter",
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ],
-                            )
-                          : const SizedBox(),
-                      data.data?.children != null
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                kheight20,
-                                const Text(
-                                  'Children',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800),
-                                ),
-                                kheight20,
-                                ValueListenableBuilder(
-                                    valueListenable: selectedMotherId,
-                                    builder: (context, _, __) {
-                                      return Wrap(
-                                        children: buillChildrenList(
-                                          data,
-                                          context,
-                                          selectedMotherId:
-                                              selectedMotherId.value,
+                              ),
+                              Column(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        context
+                                            .read<FormController>()
+                                            .fillFields(data.data!.member,
+                                                fatherMember: data.data?.father,
+                                                motherMember:
+                                                    data.data?.mother);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const FormPage(),
+                                            ));
+                                      },
+                                      icon: const Icon(Icons.edit)),
+                                  const Text(
+                                    'Edit',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              kWidth20,
+                              data.data!.member.mobile!.isNotEmpty
+                                  ? Column(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.call)),
+                                        const Text('Call'),
+                                      ],
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                          Image.asset('assets/design.png', color: kBlack),
+                          kheight,
+                          data.data?.father != null || data.data?.mother != null
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 20),
+                                      child: Text(
+                                        'Parents',
+                                        style: TextStyle(
+                                            fontSize: 27,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                    ),
+                                    kheight20,
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      UserDetailsPage(
+                                                    // memberId: child?.id,
+                                                    member: data.data?.father,
+                                                  ),
+                                                ));
+                                          },
+                                          child: SizedBox(
+                                            width: 100,
+                                            child: Column(
+                                              children: [
+                                                Card(
+                                                  elevation: 20,
+                                                  shadowColor: kGrey,
+                                                  shape: const CircleBorder(),
+                                                  color: kblue,
+                                                  child: Container(
+                                                    height: 80,
+                                                    width: 80,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                        border: Border.all(
+                                                            color: kBlack),
+                                                        image: const DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: NetworkImage(
+                                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  data.data?.father?.name ??
+                                                      "Father",
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      );
-                                    }),
-                              ],
-                            )
-                          : const SizedBox(),
-                      Image.asset(
-                        'assets/design.png',
-                        color: kBlack,
+                                        kWidth20,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      UserDetailsPage(
+                                                    // memberId: child?.id,
+                                                    member: data.data?.mother,
+                                                  ),
+                                                ));
+                                          },
+                                          child: SizedBox(
+                                            width: 100,
+                                            child: Column(
+                                              children: [
+                                                Card(
+                                                  elevation: 20,
+                                                  shadowColor: kGrey,
+                                                  shape: const CircleBorder(),
+                                                  color: kblue,
+                                                  child: Container(
+                                                    height: 80,
+                                                    width: 80,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                        border: Border.all(
+                                                            color: kBlack),
+                                                        image: const DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: NetworkImage(
+                                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  data.data?.mother?.name ??
+                                                      "Mother",
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox(),
+                          data.data?.children != null
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    kheight20,
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 20),
+                                      child: Text(
+                                        'Childrens',
+                                        style: TextStyle(
+                                            fontSize: 27,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                    ),
+                                    kheight20,
+                                    ValueListenableBuilder(
+                                        valueListenable: selectedMotherId,
+                                        builder: (context, _, __) {
+                                          return Wrap(
+                                            children: buillChildrenList(
+                                              data,
+                                              context,
+                                              selectedMotherId:
+                                                  selectedMotherId.value,
+                                            ),
+                                          );
+                                        }),
+                                  ],
+                                )
+                              : const SizedBox(),
+                          Image.asset(
+                            'assets/design.png',
+                            color: kBlack,
+                          ),
+                          const Center(
+                            child: Text(
+                              'Details',
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          kheight20,
+                          const Text(
+                            'Address : ',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w800),
+                          ),
+                          kheight,
+                          Text(
+                            data.data?.member.address ?? '',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                          kheight20,
+                        ],
                       ),
-                      const Center(
-                        child: Text(
-                          'Details',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      kheight20,
-                      const Text(
-                        'Address : ',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w800),
-                      ),
-                      kheight,
-                      Text(
-                        data.data?.member.address ?? '',
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700),
-                      ),
-                      kheight20,
-                    ],
-                  ),
-                ),
-              );
-            } else if (data.hasError) {
-              return const Center(child: Text('Something Went Wrong'));
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
-    );
+                    ),
+                  );
+                } else if (data.hasError) {
+                  return const Center(child: Text('Something Went Wrong'));
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
+        ));
   }
 
   Expanded buildSpouseList(AsyncSnapshot<FamilyTreeModel> data) {
@@ -484,8 +531,8 @@ class UserDetailsPage extends StatelessWidget {
                                   shape: const CircleBorder(),
                                   color: kblue,
                                   child: Container(
-                                    height: 70,
-                                    width: 70,
+                                    height: 80,
+                                    width: 80,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
                                         border: Border.all(color: kBlack),
@@ -496,10 +543,20 @@ class UserDetailsPage extends StatelessWidget {
                                                 'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                                   ),
                                 ),
-                                Text(
-                                  data.data?.spouse?[index].name ??
-                                      "Spuose ${index + 1}",
-                                  textAlign: TextAlign.center,
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                      data.data?.spouse?[index].name ??
+                                          "Spuose ${index + 1}",
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.visible,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 )
                               ],
                             ),
@@ -576,16 +633,6 @@ class UserDetailsPage extends StatelessWidget {
                             },
                           );
                         });
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => UserDetailsPage(
-                    //         // memberId: child?.id,
-                    //         member: child,
-                    //         fatherMember: data.data?.member,
-                    //         motherMember: childsMotherMember,
-                    //       ),
-                    //     ));
                   },
                   child: Column(
                     children: [
@@ -614,7 +661,7 @@ class UserDetailsPage extends StatelessWidget {
             : const SizedBox();
       } else {
         return SizedBox(
-          width: 100,
+          width: 125,
           child: GestureDetector(
             onTap: () {
               showModalBottomSheet(
@@ -665,8 +712,8 @@ class UserDetailsPage extends StatelessWidget {
                   shape: const CircleBorder(),
                   color: kblue,
                   child: Container(
-                    height: 50,
-                    width: 50,
+                    height: 70,
+                    width: 70,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(color: kBlack),
@@ -676,7 +723,17 @@ class UserDetailsPage extends StatelessWidget {
                                 'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
                   ),
                 ),
-                Text(child?.name ?? ""),
+                const SizedBox(
+                  height: 5,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Text(child?.name ?? "",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
               ],
             ),
           ),

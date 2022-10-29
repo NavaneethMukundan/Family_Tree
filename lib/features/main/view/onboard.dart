@@ -98,7 +98,7 @@ class OnBoardScreen extends StatelessWidget {
             ),
             kheight20,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -109,7 +109,7 @@ class OnBoardScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: kBlack),
                   ),
-                  kheight,
+                  kheight20,
                   const Text(
                     '“The strength of a family, like the strength\n of an army, lies in its loyalty to each other.”',
                     style: TextStyle(
@@ -117,7 +117,7 @@ class OnBoardScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: kBlack),
                   ),
-                  kheight30,
+                  kheight50,
                   Center(
                     child: ElevatedButton(
                         onPressed: () {
@@ -131,7 +131,8 @@ class OnBoardScreen extends StatelessWidget {
                           Icons.arrow_right_alt_outlined,
                           size: 55,
                         )),
-                  )
+                  ),
+                  kheight50,
                 ],
               ),
             ),

@@ -1,7 +1,5 @@
-import 'package:family_tree/features/home/view/details_page/user_details.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
-import 'package:family_tree/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetWidget extends StatelessWidget {
@@ -89,29 +87,35 @@ class BottomSheetWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    ontap();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: kBlack,
-                      minimumSize: const Size(200, 50)),
-                  child: const Text(
-                    'Call',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  )),
+              Expanded(
+                child: ElevatedButton(
+                    onPressed: () {
+                      ontap();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 31, 34, 27),
+                        minimumSize: const Size(100, 50)),
+                    child: const Text(
+                      'Call',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    )),
+              ),
               kWidth20,
-              ElevatedButton(
-                  onPressed: () {
-                    ontap();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: kBlack,
-                      minimumSize: const Size(200, 50)),
-                  child: const Text(
-                    'View Tree',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  )),
+              Expanded(
+                child: ElevatedButton(
+                    onPressed: () {
+                      ontap();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 31, 34, 27),
+                        minimumSize: const Size(100, 50)),
+                    child: const Text(
+                      'View Tree',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    )),
+              ),
             ],
           ),
           kheight20
