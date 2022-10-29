@@ -269,8 +269,11 @@ class HomePage extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             showModalBottomSheet(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
                 context: context,
-                builder: (builder) {
+                builder: (context) { 
                   return BottomSheetWidget(
                     image: DecorationImage(
                         image: NetworkImage(data.data?.member.imageUrl ??
@@ -278,7 +281,6 @@ class HomePage extends StatelessWidget {
                     name: child?.name ?? "",
                     houseName: data.data?.member.house ?? '',
                     fathername: data.data?.member.name.toString() ?? '',
-                    childrenName: data.data?.children.toString() ?? '',
                     ontap: () {
                       RouteController.popupRoute(context);
                       Navigator.push(

@@ -9,12 +9,13 @@ import 'package:family_tree/features/member/models/member_model.dart';
 import 'package:family_tree/utils/colors.dart';
 import 'package:family_tree/utils/constraints.dart';
 import 'package:family_tree/utils/routes.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
 
 class UserDetailsPage extends StatelessWidget {
-  const UserDetailsPage(
+  UserDetailsPage(
       {this.memberId = 'pUEAQb8VBcSazFNKFTkw',
       this.member,
       this.motherMember,
@@ -25,12 +26,7 @@ class UserDetailsPage extends StatelessWidget {
   final Member? member;
   final Member? fatherMember;
   final Member? motherMember;
-
-  // List<Widget> buildChildrenAvatars(){
-
-  //   return List.generate(10, (index) => null)
-  // }
-
+  final ValueNotifier<String> selectedMotherId = ValueNotifier<String>('all');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,33 +71,40 @@ class UserDetailsPage extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: 100,
-                            child: Column(
-                              children: [
-                                Card(
-                                  elevation: 20,
-                                  shadowColor: kGrey,
-                                  shape: const CircleBorder(),
-                                  color: kblue,
-                                  child: Container(
-                                    height: 90,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        border: Border.all(color: kBlack),
-                                        image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(data
-                                                    .data?.member.imageUrl ??
-                                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                          GestureDetector(
+                            onTap: () {
+                              selectedMotherId.value = 'all';
+                              selectedMotherId.notifyListeners();
+                            },
+                            child: SizedBox(
+                              width: 100,
+                              child: Column(
+                                children: [
+                                  Card(
+                                    elevation: 20,
+                                    shadowColor: kGrey,
+                                    shape: const CircleBorder(),
+                                    color: kblue,
+                                    child: Container(
+                                      height: 90,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          border: Border.all(color: kBlack),
+                                          image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: NetworkImage(data
+                                                      .data?.member.imageUrl ??
+                                                  'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  data.data?.member.name.toString() ?? '',
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
+                                  Text(
+                                    data.data?.member.name.toString() ?? '',
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           kWidth20,
@@ -299,9 +302,18 @@ class UserDetailsPage extends StatelessWidget {
                                       fontWeight: FontWeight.w800),
                                 ),
                                 kheight20,
-                                Wrap(
-                                  children: buillChildrenList(data, context),
-                                ),
+                                ValueListenableBuilder(
+                                    valueListenable: selectedMotherId,
+                                    builder: (context, _, __) {
+                                      return Wrap(
+                                        children: buillChildrenList(
+                                          data,
+                                          context,
+                                          selectedMotherId:
+                                              selectedMotherId.value,
+                                        ),
+                                      );
+                                    }),
                               ],
                             )
                           : const SizedBox(),
@@ -409,7 +421,7 @@ class UserDetailsPage extends StatelessWidget {
                   : Row(
                       children: [
                         GestureDetector(
-                          onTap: () {
+                          onLongPress: () {
                             context.read<FormController>().clearAllFields();
 
                             context.read<FormController>().fillFields(
@@ -424,6 +436,43 @@ class UserDetailsPage extends StatelessWidget {
                                     fromId: data.data?.member.id,
                                   ),
                                 ));
+                          },
+                          onDoubleTap: () {
+                            selectedMotherId.value =
+                                data.data?.spouse?[index].id ?? '';
+                            selectedMotherId.notifyListeners();
+                          },
+                          onTap: () {
+                            showModalBottomSheet(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                context: context,
+                                builder: (builder) {
+                                  final spouse = data.data?.spouse![index];
+                                  return BottomSheetWidget(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(spouse?.imageUrl ??
+                                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg')),
+                                    name: spouse?.name ?? "",
+                                    houseName: data.data?.member.house ?? '',
+                                    fathername:
+                                        data.data?.member.name.toString() ?? '',
+                                    ontap: () {
+                                      RouteController.popupRoute(context);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserDetailsPage(
+                                              // memberId: child?.id,
+                                              member: spouse,
+                                            ),
+                                          ));
+                                    },
+                                  );
+                                });
                           },
                           child: SizedBox(
                             width: 100,
@@ -470,62 +519,9 @@ class UserDetailsPage extends StatelessWidget {
   }
 
   List<Widget> buillChildrenList(
-      AsyncSnapshot<FamilyTreeModel> data, BuildContext context) {
-    List<Widget> list = [
-      SizedBox(
-        width: 100,
-        height: 100,
-        child: Center(
-          child: SizedBox(
-            width: 56,
-            height: 56, // button width and height
-            child: ClipOval(
-              child: Material(
-                color: Colors.black, // button color
-                child: InkWell(
-                  splashColor: Colors.grey, // splash color
-                  onTap: () {
-                    final spouses = data.data?.spouse ?? [];
-                    if (spouses.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content:
-                              Text('Please Add Spouse Before Adding A Child')));
-                      return;
-                    }
-                    context.read<FormController>().clearAllFields();
-                    context.read<SearchController>().addSpouses(spouses);
-                    context.read<FormController>().addRootMember(
-                        fatherMember: data.data?.member,
-                        motherMember: spouses[0]);
-
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FormPage(
-                            fromId: data.data?.member.id,
-                          ),
-                        ));
-                  }, // button pressed
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(
-                        Icons.add,
-                        color: kWhite,
-                      ), // icon
-                      Text(
-                        "add",
-                        style: TextStyle(color: kWhite),
-                      ), // text
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      )
-    ];
+      AsyncSnapshot<FamilyTreeModel> data, BuildContext context,
+      {String? selectedMotherId}) {
+    List<Widget> list = [AddChildButton(data)];
     final childrenData = data.data?.children;
     if (childrenData != null) {
       if (childrenData.isNotEmpty) {
@@ -545,79 +541,214 @@ class UserDetailsPage extends StatelessWidget {
       // print(motherMemberList);
       final Member? childsMotherMember =
           motherMemberList!.isNotEmpty ? motherMemberList[0] : null;
-
-      return SizedBox(
-        width: 100,
-        child: GestureDetector(
-          onTap: () {
-            // context.read<FormController>().fillFields(child!,
-            // fatherMember:  data.data?.member,
-            // motherMember: childsMotherMember);
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => FormPage(),));
-            showModalBottomSheet(
-                context: context,
-                builder: (builder) {
-                  return BottomSheetWidget(
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(child?.imageUrl ??
-                            'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg')),
-                    name: child?.name ?? "",
-                    houseName: data.data?.member.house ?? '',
-                    fathername: data.data?.member.name.toString() ?? '',
-                    childrenName: data.data?.children.toString() ?? '',
-                    ontap: () {
-                      RouteController.popupRoute(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserDetailsPage(
-                              // memberId: child?.id,
-                              member: child,
-                              fatherMember: data.data?.member,
-                              motherMember: childsMotherMember,
-                            ),
-                          ));
-                    },
-                  );
-                });
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => UserDetailsPage(
-            //         // memberId: child?.id,
-            //         member: child,
-            //         fatherMember: data.data?.member,
-            //         motherMember: childsMotherMember,
-            //       ),
-            //     ));
-          },
-          child: Column(
-            children: [
-              Card(
-                elevation: 15,
-                shadowColor: kGrey,
-                shape: const CircleBorder(),
-                color: kblue,
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: kBlack),
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(child?.imageUrl ??
-                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+      if (selectedMotherId != 'all') {
+        return selectedMotherId == child?.motherId
+            ? SizedBox(
+                width: 100,
+                child: GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        context: context,
+                        builder: (builder) {
+                          return BottomSheetWidget(
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(child?.imageUrl ??
+                                    'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg')),
+                            name: child?.name ?? "",
+                            houseName: data.data?.member.house ?? '',
+                            fathername: data.data?.member.name.toString() ?? '',
+                            ontap: () {
+                              RouteController.popupRoute(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UserDetailsPage(
+                                      // memberId: child?.id,
+                                      member: child,
+                                      fatherMember: data.data?.member,
+                                      motherMember: childsMotherMember,
+                                    ),
+                                  ));
+                            },
+                          );
+                        });
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => UserDetailsPage(
+                    //         // memberId: child?.id,
+                    //         member: child,
+                    //         fatherMember: data.data?.member,
+                    //         motherMember: childsMotherMember,
+                    //       ),
+                    //     ));
+                  },
+                  child: Column(
+                    children: [
+                      Card(
+                        elevation: 15,
+                        shadowColor: kGrey,
+                        shape: const CircleBorder(),
+                        color: kblue,
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: kBlack),
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: NetworkImage(child?.imageUrl ??
+                                      'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                        ),
+                      ),
+                      Text(child?.name ?? ""),
+                    ],
+                  ),
                 ),
-              ),
-              Text(child?.name ?? ""),
-            ],
+              )
+            : const SizedBox();
+      } else {
+        return SizedBox(
+          width: 100,
+          child: GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  context: context,
+                  builder: (builder) {
+                    return BottomSheetWidget(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(child?.imageUrl ??
+                              'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg')),
+                      name: child?.name ?? "",
+                      houseName: data.data?.member.house ?? '',
+                      fathername: data.data?.member.name.toString() ?? '',
+                      ontap: () {
+                        RouteController.popupRoute(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserDetailsPage(
+                                // memberId: child?.id,
+                                member: child,
+                                fatherMember: data.data?.member,
+                                motherMember: childsMotherMember,
+                              ),
+                            ));
+                      },
+                    );
+                  });
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => UserDetailsPage(
+              //         // memberId: child?.id,
+              //         member: child,
+              //         fatherMember: data.data?.member,
+              //         motherMember: childsMotherMember,
+              //       ),
+              //     ));
+            },
+            child: Column(
+              children: [
+                Card(
+                  elevation: 15,
+                  shadowColor: kGrey,
+                  shape: const CircleBorder(),
+                  color: kblue,
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(color: kBlack),
+                        image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(child?.imageUrl ??
+                                'https://gptckannur.ac.in/wp-content/uploads/2021/09/profile-pic-placeholder.jpg'))),
+                  ),
+                ),
+                Text(child?.name ?? ""),
+              ],
+            ),
           ),
-        ),
-      );
+        );
+      }
     });
     list.addAll(genaratedList);
     return list.reversed.toList();
+  }
+}
+
+class AddChildButton extends StatelessWidget {
+  final AsyncSnapshot<FamilyTreeModel> data;
+  const AddChildButton(
+    this.data, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 100,
+      height: 100,
+      child: Center(
+        child: SizedBox(
+          width: 56,
+          height: 56, // button width and height
+          child: ClipOval(
+            child: Material(
+              color: Colors.black, // button color
+              child: InkWell(
+                splashColor: Colors.grey, // splash color
+                onTap: () {
+                  final spouses = data.data?.spouse ?? [];
+                  if (spouses.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content:
+                            Text('Please Add Spouse Before Adding A Child')));
+                    return;
+                  }
+                  context.read<FormController>().clearAllFields();
+                  context.read<SearchController>().addSpouses(spouses);
+                  context.read<FormController>().addRootMember(
+                      fatherMember: data.data?.member,
+                      motherMember: spouses[0]);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FormPage(
+                          fromId: data.data?.member.id,
+                        ),
+                      ));
+                }, // button pressed
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Icon(
+                      Icons.add,
+                      color: kWhite,
+                    ), // icon
+                    Text(
+                      "add",
+                      style: TextStyle(color: kWhite),
+                    ), // text
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
