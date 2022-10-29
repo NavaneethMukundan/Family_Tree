@@ -11,14 +11,13 @@ class BottomSheetWidget extends StatelessWidget {
       required this.name,
       required this.houseName,
       required this.fathername,
-      required this.childrenName,
       required this.ontap});
 
   final DecorationImage image;
   final String name;
   final String houseName;
   final String fathername;
-  final String childrenName;
+
   final Function ontap;
 
   @override
@@ -73,19 +72,13 @@ class BottomSheetWidget extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(
-              fathername,
+              "S/O $fathername",
               maxLines: 1,
               overflow: TextOverflow.clip,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
           ),
           kheight20,
-          const Text(
-            'Childrens',
-            maxLines: 1,
-            overflow: TextOverflow.clip,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-          ),
           const SizedBox(
             width: 150,
             child: Divider(
@@ -93,39 +86,34 @@ class BottomSheetWidget extends StatelessWidget {
             ),
           ),
           kheight20,
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Center(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Text(
-                    childrenName,
-                    maxLines: 1,
-                    overflow: TextOverflow.clip,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                ),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return const Divider();
-            },
-            itemCount: 3,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    ontap();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: kBlack,
+                      minimumSize: const Size(200, 50)),
+                  child: const Text(
+                    'Call',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  )),
+              kWidth20,
+              ElevatedButton(
+                  onPressed: () {
+                    ontap();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: kBlack,
+                      minimumSize: const Size(200, 50)),
+                  child: const Text(
+                    'View Tree',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  )),
+            ],
           ),
-          kheight20,
-          ElevatedButton(
-              onPressed: () {
-                ontap();
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: kBlack, minimumSize: const Size(230, 60)),
-              child: const Text(
-                'View Tree',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              )),
           kheight20
         ],
       ),

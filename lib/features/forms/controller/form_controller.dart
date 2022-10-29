@@ -189,12 +189,14 @@ class FormController extends ChangeNotifier {
 
   Future<String?> uploadImage() async {
     if (imageFile == null) return null;
+    String tempUrl = imageUrl??'';
     final imagesRef = fireStorageRef.child("images");
     final uuid = const Uuid().v1();
     final imageRef = imagesRef.child(uuid);
     try {
       await imageRef.putFile(imageFile!);
-      return await imageRef.getDownloadURL();
+      final a= await  imageRef.getDownloadURL();
+      return a;
     } catch (e) {
       print(e);
     }
